@@ -6,3 +6,9 @@
 
 # Secret Key
 .env
+
+# Image
+/images
+
+# Data
+*.csv
