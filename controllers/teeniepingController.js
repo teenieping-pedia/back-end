@@ -26,3 +26,22 @@ exports.getTeeniepingById = async (req, res) => {
   }
 };
 
+// 이름으로 티니핑 검색하기
+exports.searchTeeniepingByName = async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    if (!q) {
+      return res.status(400).json({ message: '검색할 이름을 입력하세요.' });
+    }
+
+    const teeniepings = await Teenieping.find({
+      name: { $regex: q, $options: 'i' }
+    }, '_id name imageUrl series rank');
+
+    res.json(teeniepings);
+  } catch (error) {
+    console.error('이름으로 티니핑 검색 오류:', error);
+    res.status(500).json({ message: '서버 오류' });
+  }
+};
